@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## JS SCOPE
+
+						by Kirill Gorbikov
+					</textarea>
+				</section>
+				<section>
+					<p class="emphsis">Scope</p>
+					<p>determines the accessibility (visibility) of variables.</p>
+				</section>
+				<section data-markdown>
+						<textarea data-template>
+								## There are two kinds of scope
+								
+								<ul>
+									<li>global scope</li>
+									<li>local scope</li>
+								</ul>
+						</textarea>
+					</section>
+				<section>
+					<section>
+							<p>Global scope</p>
+							If a variable is declared outside all functions or curly braces ({}), it is said to be defined in the global scope.
+							<pre>
+								<code class="hljs javascript" data-trim="" contenteditable="">
+									const hello = 'Hello World!'
+
+									function sayHello () {
+									 console.log(hello)
+									}
+											
+									console.log(hello) // 'Hello World!'
+									sayHello() // 'Hello World!'
+								</code>
+							</pre>
+					</section>
+					<section>
+						If you declared your variables with const or let, you would receive an error whenever a name collision happens.
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+									// Don't do this!
+									let thing = 'something'
+									let thing = 'something else' // Error, thing has already been declared
+							</code>
+						</pre>
+					</section>
+					<section>
+						If you declare your variables with var, your second variable overwrites the first one after it is declared. This also undesirable as you make your code hard to debug.
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+									// Don't do this!
+									var thing = 'something'
+									var thing = 'something else' // perhaps somewhere totally different in your code
+									console.log(thing) // 'something else'
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+							<p>Local Scope</p>
+							<ul>
+								<li>function scope</li>
+								<li>block scope</li>
+							</ul>
+						</textarea>
+					</section>
+					<section>
+						<p>Function scope</p>
+						When you declare a variable in a function, you can access this variable only within the function.
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+								function sayHello () {
+									const hello = 'Hello World!'
+									console.log(hello)
+								  }
+								  
+								  sayHello() // 'Hello World!'
+								  console.log(hello) // Error, hello is not defined
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>Block scope</p>
+						When you declare a variable with const or let within a curly brace ({}), you can access this variable only within that curly brace.
+
+						
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+								if () {
+									const hello = 'Hello Word!'
+									console.log(hello) // 'Hello World!'
+								  }
+								  
+								  console.log(hello) // Error, hello is not defined
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>Function hoisting and scopes</p>
+						Functions, when declared with a function declaration, are always hoisted to the top of the current scope.
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+								// This is the same as the one below
+								sayHello()
+								function sayHello () {
+								  console.log('Hello World!')
+								}
+								
+								// This is the same as the code above
+								function sayHello () {
+								  console.log('Hello World!')
+								}
+								sayHello()
+							</code>
+						</pre>
+					</section>
+					<section>
+							When declared with a function expression, functions are not hoisted to the top of the current scope.
+							<pre>
+								<code class="hljs javascript" data-trim="" contenteditable="">
+									sayHello() // Error, sayHello is not defined
+									const sayHello = function () {
+									  console.log(aFunction)
+									}
+								</code>
+							</pre>
+
+							<pre>
+									<code class="hljs javascript" data-trim="" contenteditable="">
+										sayHello() // Error, sayHello is not a function
+										var sayHello = function () {
+										  console.log(aFunction)
+										}
+								</code>
+							</pre>
+							
+					</section>
+					<section>
+						<p>Functions do not have access to each other's scopes</p>
+						
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+								function first () {
+								  const firstFunctionVariable = `I'm part of first`
+								}
+								  
+								function second () {
+								  first()
+								  console.log(firstFunctionVariable) // Error, firstFunctionVariable is not defined
+								}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>Nested scopes</p>
+					
+						<pre>
+							<code class="hljs javascript" data-trim="" contenteditable="">
+								function outerFunction () {
+									const outer = `I'm the outer function!`
+								  
+									function innerFunction() {
+									  const inner = `I'm the inner function!`
+									  console.log(outer) // I'm the outer function!
+									}
+								  
+									console.log(inner) // Error, inner is not defined
+								  }
+							</code>
+						</pre>
+					</section>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						## Thank you!
+					</textarea>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
